@@ -30,11 +30,12 @@ class Snoopoll extends EventEmitter {
         const jobModule = require(jobPath);
         const job = {
           name: jobModule.name || "Unnamed Job",
-          frequency: jobModule.frequency || 7000,
+          frequency: jobModule.frequency ?? 0,
           lastRun: 0,
           getData: jobModule.getData || (() => "Default Data"),
         };
         jobs.push(job);
+        console.log(`Job Loaded: ${job.name}`);
       }
     });
     return jobs;
@@ -104,7 +105,12 @@ class Snoopoll extends EventEmitter {
         .getData(this.redditClient)
         .then((data) => {
           // Emit data from the chosen job
-          this.emit("data", data);
+
+          if (data.length > 0) {
+            this.emit(nextJob.name, data);
+          } else {
+            console.log(`${nextJob.name}: returned 0 records`);
+          }
         })
         .catch((error) => {
           console.error(`Error in ${nextJob.name}:`, error);

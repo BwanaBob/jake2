@@ -14,9 +14,25 @@ snoopoll.on('frequencyChanged', (newFrequency) => {
 snoopoll.on('jobFrequencyChanged', (job) => {
   console.log(`Snoopoll job frequency for job: "${job.name}" changed to ${job.frequency} milliseconds.`);
 });
-snoopoll.on('data', (data) => {
-  console.log('Received data:', data);
+// snoopoll.on('data', (data) => {
+//   console.log('Received data:', data);
+// });
+snoopoll.on('getNewComments', (data) => {
+  console.log('Received New Comments:', data.length);
 });
+snoopoll.on('getNewSubmissions', (data) => {
+  console.log('Received New Submissions:', data.length);
+});
+snoopoll.on('getNewModmail', (data) => {
+  console.log('Received New Modmail:', data.length);
+});
+snoopoll.on('getSpam', (data) => {
+  console.log('Received New Spam:', data.length);
+});
+snoopoll.on('getModQueue', (data) => {
+  console.log('Received New ModQueue Item:', data.length);
+});
+
 
 // Start snoopoll
 snoopoll.start();
