@@ -21,14 +21,14 @@ snoopoll.on('data', (data) => {
 // Start snoopoll
 snoopoll.start();
 
-// Adjust frequency (e.g., change to 2 seconds)
+// Adjust frequency (e.g., change to 5 seconds)
 setTimeout(() => {
-  snoopoll.setFrequency(2000);
+  snoopoll.setFrequency(5000);
 }, 15000);
 
-// Adjust job 1 frequency (e.g., change to 3 seconds)
+// Adjust job 1 frequency (e.g., change to 11 seconds)
 setTimeout(() => {
-  snoopoll.setJobFrequency("getSubmissions", 11000);
+  snoopoll.setJobFrequency("getNewSubmissions", 11000);
 }, 25000);
 
 // Stop snoopoll after 60 seconds
