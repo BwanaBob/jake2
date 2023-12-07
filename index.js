@@ -1,5 +1,5 @@
-const Snoopoll= require('./src/modules/snoopoll.js');
-const snoopoll = new Snoopoll();
+const Snoopoll= require('./src/modules/snoopoll/snoopoll.js');
+const snoopoll = new Snoopoll('./src/modules/snoopoll/jobs');
 
 // Event handlers
 snoopoll.on('start', () => {
@@ -28,7 +28,7 @@ setTimeout(() => {
 
 // Adjust job 1 frequency (e.g., change to 3 seconds)
 setTimeout(() => {
-  snoopoll.setJobFrequency("getComments", 3000);
+  snoopoll.setJobFrequency("getSubmissions", 11000);
 }, 25000);
 
 // Stop snoopoll after 60 seconds

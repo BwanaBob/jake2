@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/BwanaBob/jake2/issues"
   },
-  "homepage": "https://github.com/BwanaBob/jake2#readme"
+  "homepage": "https://github.com/BwanaBob/jake2#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "snoowrap": "^1.23.0"
+  }
 }
