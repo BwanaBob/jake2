@@ -1,36 +1,38 @@
 const Snoopoll= require('./src/modules/snoopoll/snoopoll.js');
 const snoopoll = new Snoopoll('./src/modules/snoopoll/jobs');
+const log = require("./src/modules/logger.js");
 
 // Event handlers
 snoopoll.on('start', () => {
-  console.log('Snoopoll started.');
+  log.execute({ emoji: '🚥', module: 'SnooPoll', feature: "Started" });
 });
 snoopoll.on('stop', () => {
-  console.log('Snoopoll stopped.');
+  log.execute({ emoji: '🛑', module: 'SnooPoll', feature: "Stopped" });
 });
 snoopoll.on('frequencyChanged', (newFrequency) => {
-  console.log(`Snoopoll frequency changed to ${newFrequency} milliseconds.`);
+  log.execute({ emoji: '⏱️', module: 'SnooPoll', feature: "FrequencyChange", message: `${newFrequency} milliseconds` });
 });
 snoopoll.on('jobFrequencyChanged', (job) => {
-  console.log(`Snoopoll job frequency for job: "${job.name}" changed to ${job.frequency} milliseconds.`);
+  log.execute({ emoji: '⏱️', module: job.name, feature: "FrequencyChange", message: `${job.frequency} milliseconds` });
 });
 // snoopoll.on('data', (data) => {
 //   console.log('Received data:', data);
 // });
 snoopoll.on('getNewComments', (data) => {
-  console.log('Received New Comments:', data.length);
+  log.execute({ emoji: '💬', module: 'getNewComments', feature: "Received", message: `${data.length} comments` });
 });
 snoopoll.on('getNewSubmissions', (data) => {
-  console.log('Received New Submissions:', data.length);
+  log.execute({ emoji: '📌', module: 'getNewSubmissions', feature: "Received", message: `${data.length} submissions` });
 });
 snoopoll.on('getNewModmail', (data) => {
-  console.log('Received New Modmail:', data.length);
+  log.execute({ emoji: '✉️', module: 'getNewModmail', feature: "Received", message: `${data.length} conversations` });
 });
 snoopoll.on('getSpam', (data) => {
-  console.log('Received New Spam:', data.length);
+  log.execute({ emoji: '📫', module: 'getSpam', feature: "Received", message: `${data.length} items` });
 });
 snoopoll.on('getModQueue', (data) => {
-  console.log('Received New ModQueue Item:', data.length);
+  // console.log('Received New ModQueue Item:', data.length);
+  log.execute({ emoji: '📋', module: 'ModQueue', feature: "Received", message: data.length });
 });
 
 

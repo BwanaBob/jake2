@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 const snoowrap = require("snoowrap");
+const log = require("../logger.js");
 
 class Snoopoll extends EventEmitter {
   constructor(jobFolder) {
@@ -35,7 +36,7 @@ class Snoopoll extends EventEmitter {
           getData: jobModule.getData || (() => "Default Data"),
         };
         jobs.push(job);
-        console.log(`Job Loaded: ${job.name}`);
+        log.execute({ emoji: '💾', module: job.name, feature: "Job Loaded" });
       }
     });
     return jobs;
@@ -109,7 +110,7 @@ class Snoopoll extends EventEmitter {
           if (data.length > 0) {
             this.emit(nextJob.name, data);
           } else {
-            console.log(`${nextJob.name}: returned 0 records`);
+            log.execute({ emoji: '🚫', module: nextJob.name, feature: "Received", message: "0 records" });
           }
         })
         .catch((error) => {
