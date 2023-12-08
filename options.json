@@ -1,15 +1,6 @@
 {
-  "jobs": {
-    "getComments": {
-      "defaultFrequency": 7000,
-      "defaultLimit": 15,
-      "defaultSubs": "OnPatrolLive+LAFireandRescue+OPLTesting"
-    },
-    "getSubmissions": {
-      "defaultFrequency": 30000,
-      "defaultLimit": 10,
-      "defaultSubs": "OnPatrolLive+LAFireandRescue+OPLTesting"
-    }
+  "snooPoll": {
+    "frequency": 6000
   },
   "logger": {
     "logLength": 140,

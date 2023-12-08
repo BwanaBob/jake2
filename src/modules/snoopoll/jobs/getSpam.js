@@ -2,14 +2,17 @@ const processedSpamIds = new Set();
 
 module.exports = {
   name: "getSpam",
-  frequency: 8000,
-  async getData(redditClient) {
+  frequency: 31000,
+  limit: 10,
+  async getData(redditClient, afterDate) {
     try {
       const spams = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-        .getSpam({ limit: 2 });
+        .getSpam({ limit: this.limit });
 
-      const newSpams = spams.filter((spam) => !processedSpamIds.has(spam.id));
+      const newSpams = spams.filter(
+        (spam) => !processedSpamIds.has(spam.id) && afterDate < spam.created_utc
+      );
 
       // Update the set of processed spam IDs
       newSpams.forEach((spam) => {
@@ -18,8 +21,8 @@ module.exports = {
 
       return newSpams;
     } catch (error) {
-      console.error("Error in getNewspams:", error);
-      return "Error occurred in getNewspams";
+      console.error("Error in getSpam:", error);
+      return "Error occurred in getSpam";
     }
   },
 };

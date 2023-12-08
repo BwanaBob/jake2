@@ -2,15 +2,18 @@ const processedConversationIds = new Set();
 
 module.exports = {
   name: "getNewModmail",
-  frequency: 30000,
-  async getData(redditClient) {
+  frequency: 77000,
+  limit: 5,
+  async getData(redditClient, afterDate) {
     try {
       // const conversations = await redditClient.getNewModmailConversations({ limit: 2 });
       const conversations = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-        .getNewModmailConversations({ limit: 2 });
+        .getNewModmailConversations({ limit: this.limit });
       const newConversations = conversations.filter(
-        (conversation) => !processedConversationIds.has(conversation.id)
+        (conversation) =>
+          !processedConversationIds.has(conversation.id) &&
+          afterDate < conversation.created_utc
       );
       // Update the set of processed comment IDs
       newConversations.forEach((conversation) => {

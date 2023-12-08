@@ -1,10 +1,10 @@
 const EventEmitter = require("events");
-// const options = require("./options.json");
+const snoowrap = require("snoowrap");
+const log = require("../logger.js");
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
-const snoowrap = require("snoowrap");
-const log = require("../logger.js");
+const options = require("../../../options.json");
 
 class Snoopoll extends EventEmitter {
   constructor(jobFolder) {
@@ -16,9 +16,10 @@ class Snoopoll extends EventEmitter {
       username: process.env.REDDIT_USERNAME,
       password: process.env.REDDIT_PASSWORD,
     });
-    this.frequency = 7000; // Default frequency is 7 seconds
+    this.frequency = options.snooPoll.frequency || 7000; // Default frequency is 7 seconds
     this.jobs = this.loadJobs(jobFolder);
     this.interval = null;
+    this.connectedAt = Date.now() / 1000;
   }
 
   loadJobs(jobFolder) {
@@ -33,6 +34,7 @@ class Snoopoll extends EventEmitter {
           name: jobModule.name || "Unnamed Job",
           frequency: jobModule.frequency ?? 0,
           lastRun: 0,
+          limit: jobModule.limit || 25,
           getData: jobModule.getData || (() => "Default Data"),
         };
         jobs.push(job);
@@ -45,7 +47,7 @@ class Snoopoll extends EventEmitter {
   start() {
     if (!this.interval) {
       this.interval = setInterval(() => this.emitData(), this.frequency);
-      this.emit("start");
+      this.emit("start", {frequency: this.frequency, jobs: this.jobs.length});
     }
   }
 
@@ -85,7 +87,7 @@ class Snoopoll extends EventEmitter {
       (prev, current) => {
         const elapsed = currentTime - current.lastRun - current.frequency;
         if (
-          current.frequency > 0 &&
+          current.frequency > 0 && elapsed > 0 &&
           (prev.job === null || elapsed > prev.elapsed)
         ) {
           return { job: current, elapsed };
@@ -97,20 +99,16 @@ class Snoopoll extends EventEmitter {
 
     if (nextJob) {
       nextJob.lastRun = currentTime;
-
-      // synchronus getData
-      // this.emit("data", nextJob.getData());
-
       // Call getData and emit the result when the promise is resolved
       nextJob
-        .getData(this.redditClient)
+        .getData(this.redditClient, this.connectedAt)
         .then((data) => {
           // Emit data from the chosen job
 
           if (data.length > 0) {
             this.emit(nextJob.name, data);
           } else {
-            log.execute({ emoji: '🚫', module: nextJob.name, feature: "Received", message: "0 records" });
+            log.execute({ emoji: '🚫', module: nextJob.name, feature: "Received", message: "  0 records" });
           }
         })
         .catch((error) => {

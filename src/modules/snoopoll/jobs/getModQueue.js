@@ -2,15 +2,19 @@ const processedModQueueItemIds = new Set();
 
 module.exports = {
   name: "getModQueue",
-  frequency: 5000,
-  async getData(redditClient) {
+  frequency: 60000,
+  limit: 5,
+  async getData(redditClient, afterDate) {
     try {
       // const ModQueueItems = await redditClient.getNewModQueueItems("OnPatrolLive+LAFireandRescue+OPLTesting", { limit: 2 });
       const modQueueItems = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-        .getModqueue({ limit: 2 });
+        .getModqueue({ limit: this.limit });
+
       const newModQueueItems = modQueueItems.filter(
-        (modQueueItem) => !processedModQueueItemIds.has(modQueueItem.id)
+        (modQueueItem) =>
+          !processedModQueueItemIds.has(modQueueItem.id) &&
+          afterDate < modQueueItem.created_utc
       );
       // Update the set of processed ModQueueItem IDs
       newModQueueItems.forEach((modQueueItem) => {
