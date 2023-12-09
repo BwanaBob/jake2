@@ -1,6 +1,6 @@
 {
   "snooPoll": {
-    "frequency": 6000
+    "frequency": 5000
   },
   "logger": {
     "logLength": 140,

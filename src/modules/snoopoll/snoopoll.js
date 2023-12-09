@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 const options = require("../../../options.json");
+const minFrequency = require("./minFrequency,js");
 
 class Snoopoll extends EventEmitter {
   constructor(jobFolder) {
@@ -19,7 +20,7 @@ class Snoopoll extends EventEmitter {
     this.frequency = options.snooPoll.frequency || 7000; // Default frequency is 7 seconds
     this.jobs = this.loadJobs(jobFolder);
     this.interval = null;
-    this.connectedAt = Date.now() / 1000;
+    this.connectedAt = Date.now() / 1000 - 100000;
   }
 
   loadJobs(jobFolder) {
@@ -41,6 +42,7 @@ class Snoopoll extends EventEmitter {
         log.execute({ emoji: "💾", module: job.name, feature: "Job Loaded" });
       }
     });
+    this.reportFrequency(jobs);
     return jobs;
   }
 
@@ -66,6 +68,7 @@ class Snoopoll extends EventEmitter {
         this.start();
       }
       this.emit("frequencyChanged", this.frequency);
+      this.reportFrequency(this.jobs);
     }
   }
 
@@ -77,8 +80,15 @@ class Snoopoll extends EventEmitter {
         name: this.jobs[jobIndex].name,
         frequency: newFrequency,
       });
+      this.reportFrequency(this.jobs);
     }
   }
+
+reportFrequency(jobs){
+  // console.log(jobs.length);
+  const jobFreqs = jobs.map((job) => ( job.frequency));
+  log.execute({ emoji: "🧮", module: "SnooPoll", feature: "ReportFreq", message: `Current: ${this.frequency} | Ideal: ${minFrequency.minFrequency(jobFreqs)}` });
+}
 
   emitData() {
     const currentTime = Date.now();
@@ -104,11 +114,7 @@ class Snoopoll extends EventEmitter {
       nextJob
         .getData(this.redditClient, this.connectedAt)
         .then((data) => {
-          // Emit data from the chosen job
-
           if (data.length > 0) {
-            // this.emit(nextJob.name, data);
-            // Update the set of processed ModQueueItem IDs
             data.forEach((datum) => {
               this.emit(nextJob.name, datum);
             });

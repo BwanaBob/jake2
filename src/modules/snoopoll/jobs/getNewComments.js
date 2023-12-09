@@ -2,7 +2,7 @@ const processedCommentIds = new Set();
 
 module.exports = {
   name: "getNewComments",
-  frequency: 6000,
+  frequency: 7000,
   limit: 25,
   async getData(redditClient, afterDate) {
     try {

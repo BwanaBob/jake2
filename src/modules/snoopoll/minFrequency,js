@@ -1,0 +1,16 @@
+const gcd = (a, b) => (a ? gcd(b % a, a) : b);
+const lcm = (a, b) => (a * b) / gcd(a, b);
+// const periodsArray = [45, 60, 90, 120];
+
+function minFrequency(periodsArray) {
+  var theLCM = periodsArray.reduce(lcm);
+  const periodsPerLCMArray = periodsArray.map((period) => theLCM / period);
+  const periodsPerLCM = periodsPerLCMArray.reduce( (sum, current) => sum + current, 0);
+  const minFrequency = (theLCM / periodsPerLCM).toFixed(2);
+//   console.log(
+//     `Jobs: ${periodsArray.length} - LCM of: ${theLCM} - periods in LCM: ${periodsPerLCM} - Min Freq: ${minFrequency}`
+//   );
+  return minFrequency;
+}
+
+module.exports = { minFrequency };
