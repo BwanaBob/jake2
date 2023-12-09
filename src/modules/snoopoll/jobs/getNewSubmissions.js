@@ -3,10 +3,9 @@ const processedSubmissionIds = new Set();
 module.exports = {
   name: "getNewSubmissions",
   frequency: 30000,
-  limit: 5,
+  limit: 10,
   async getData(redditClient, afterDate) {
     try {
-      // const submissions = await redditClient.getNew(["OPLTesting+OnPatrolLive"], {limit: 2});
       const submissions = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
         .getNew({ limit: this.limit });

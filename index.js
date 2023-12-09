@@ -1,6 +1,7 @@
 const Snoopoll= require('./src/modules/snoopoll/snoopoll.js');
-const snoopoll = new Snoopoll('./src/modules/snoopoll/jobs');
 const log = require("./src/modules/logger.js");
+
+const snoopoll = new Snoopoll('./src/modules/snoopoll/jobs');
 
 // Event handlers
 snoopoll.on('start', (data) => {
@@ -18,21 +19,23 @@ snoopoll.on('jobFrequencyChanged', (job) => {
 // snoopoll.on('data', (data) => {
 //   console.log('Received data:', data);
 // });
-snoopoll.on('getNewComments', (data) => {
-  log.execute({ emoji: '💬', module: 'getNewComments', feature: "Received", message: `${String(data.length).padStart(3," ")} comments` });
+snoopoll.on('getNewComments', async (data) => {
+  const authorUser = await data.author?.name || "Unknown";
+  const subreddit = await data.subreddit?.display_name || "Unknown";
+  log.execute({ emoji: '💬', module: 'getNewComments', feature: "Received", guild: subreddit, userName: authorUser, message: `${data.constructor.name} Id: ${data.id}` });
 });
 snoopoll.on('getNewSubmissions', (data) => {
-  log.execute({ emoji: '📌', module: 'getNewSubmissions', feature: "Received", message: `${String(data.length).padStart(3," ")} submissions` });
+  log.execute({ emoji: '📌', module: 'getNewSubmissions', feature: "Received", message: `${data.constructor.name} Id: ${data.id}` });
 });
 snoopoll.on('getNewModmail', (data) => {
-  log.execute({ emoji: '📨', module: 'getNewModmail', feature: "Received", message: `${String(data.length).padStart(3," ")} conversations` });
+  log.execute({ emoji: '📨', module: 'getNewModmail', feature: "Received", message: `${data.constructor.name} Id: ${data.id}` });
 });
 snoopoll.on('getSpam', (data) => {
-  log.execute({ emoji: '📫', module: 'getSpam', feature: "Received", message: `${String(data.length).padStart(3," ")} items` });
+  log.execute({ emoji: '📫', module: 'getSpam', feature: "Received", message: `${data.constructor.name} Id: ${data.id}` });
 });
 snoopoll.on('getModQueue', (data) => {
   // console.log('Received New ModQueue Item:', data.length);
-  log.execute({ emoji: '📋', module: 'ModQueue', feature: "Received", message: String(data.length).padStart(3," ") });
+  log.execute({ emoji: '📋', module: 'ModQueue', feature: "Received", message: `${data.constructor.name} Id: ${data.id}` });
 });
 
 

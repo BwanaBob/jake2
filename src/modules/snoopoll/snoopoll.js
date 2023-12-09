@@ -38,7 +38,7 @@ class Snoopoll extends EventEmitter {
           getData: jobModule.getData || (() => "Default Data"),
         };
         jobs.push(job);
-        log.execute({ emoji: '💾', module: job.name, feature: "Job Loaded" });
+        log.execute({ emoji: "💾", module: job.name, feature: "Job Loaded" });
       }
     });
     return jobs;
@@ -47,7 +47,7 @@ class Snoopoll extends EventEmitter {
   start() {
     if (!this.interval) {
       this.interval = setInterval(() => this.emitData(), this.frequency);
-      this.emit("start", {frequency: this.frequency, jobs: this.jobs.length});
+      this.emit("start", { frequency: this.frequency, jobs: this.jobs.length });
     }
   }
 
@@ -87,7 +87,8 @@ class Snoopoll extends EventEmitter {
       (prev, current) => {
         const elapsed = currentTime - current.lastRun - current.frequency;
         if (
-          current.frequency > 0 && elapsed > 0 &&
+          current.frequency > 0 &&
+          elapsed > 0 &&
           (prev.job === null || elapsed > prev.elapsed)
         ) {
           return { job: current, elapsed };
@@ -106,9 +107,18 @@ class Snoopoll extends EventEmitter {
           // Emit data from the chosen job
 
           if (data.length > 0) {
-            this.emit(nextJob.name, data);
+            // this.emit(nextJob.name, data);
+            // Update the set of processed ModQueueItem IDs
+            data.forEach((datum) => {
+              this.emit(nextJob.name, datum);
+            });
           } else {
-            log.execute({ emoji: '🚫', module: nextJob.name, feature: "Received", message: "  0 records" });
+            log.execute({
+              emoji: "🚫",
+              module: nextJob.name,
+              feature: "Received",
+              message: "  0 records",
+            });
           }
         })
         .catch((error) => {

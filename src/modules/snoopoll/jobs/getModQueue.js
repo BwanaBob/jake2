@@ -3,10 +3,9 @@ const processedModQueueItemIds = new Set();
 module.exports = {
   name: "getModQueue",
   frequency: 60000,
-  limit: 5,
+  limit: 15,
   async getData(redditClient, afterDate) {
     try {
-      // const ModQueueItems = await redditClient.getNewModQueueItems("OnPatrolLive+LAFireandRescue+OPLTesting", { limit: 2 });
       const modQueueItems = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
         .getModqueue({ limit: this.limit });

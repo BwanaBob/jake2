@@ -3,13 +3,13 @@ const processedConversationIds = new Set();
 module.exports = {
   name: "getNewModmail",
   frequency: 77000,
-  limit: 5,
+  limit: 10,
   async getData(redditClient, afterDate) {
     try {
-      // const conversations = await redditClient.getNewModmailConversations({ limit: 2 });
       const conversations = await redditClient
         .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
         .getNewModmailConversations({ limit: this.limit });
+
       const newConversations = conversations.filter(
         (conversation) =>
           !processedConversationIds.has(conversation.id) &&
