@@ -20,7 +20,8 @@ class Snoopoll extends EventEmitter {
     this.frequency = options.snooPoll.frequency || 7000; // Default frequency is 7 seconds
     this.jobs = this.loadJobs(jobFolder);
     this.interval = null;
-    this.connectedAt = Date.now() / 1000 - 100000;
+    this.connectedAt = Date.now() / 1000; // - 10000;
+    this.processedIds = new Set();
   }
 
   loadJobs(jobFolder) {
@@ -84,11 +85,22 @@ class Snoopoll extends EventEmitter {
     }
   }
 
-reportFrequency(jobs){
-  // console.log(jobs.length);
-  const jobFreqs = jobs.map((job) => ( job.frequency));
-  log.execute({ emoji: "🧮", module: "SnooPoll", feature: "ReportFreq", message: `Current: ${this.frequency} | Ideal: ${minFrequency.minFrequency(jobFreqs)}` });
-}
+  reportFrequency(jobs) {
+    // console.log(jobs.length);
+    const jobFreqs = jobs
+      .map((job) => job.frequency)
+      .filter((freq) => freq > 0);
+    // const newJobFreqs = jobFreqs.filter((freq) => freq > 0);
+    // console.log(newJobFreqs);
+    log.execute({
+      emoji: "🧮",
+      module: "SnooPoll",
+      feature: "ReportFreq",
+      message: `Current: ${this.frequency} | Ideal: ${minFrequency.minFrequency(
+        jobFreqs
+      )}`,
+    });
+  }
 
   emitData() {
     const currentTime = Date.now();
@@ -114,9 +126,24 @@ reportFrequency(jobs){
       nextJob
         .getData(this.redditClient, this.connectedAt)
         .then((data) => {
-          if (data.length > 0) {
-            data.forEach((datum) => {
-              this.emit(nextJob.name, datum);
+          const newData = data.filter((item) => {
+            if (item.created_utc && this.connectedAt < item.created_utc) {
+              return true;
+            }
+            if (
+              item.lastUupdated &&
+              this.connectedAt < new Date(item.lastUpdated).getTime() / 1000
+            ) {
+              return true;
+            }
+            return false;
+          });
+
+          if (newData.length > 0) {
+            newData.forEach((datum) => {
+              // this.emit(nextJob.name, datum);
+              this.processedIds.add(datum.id);
+              this.emit("data", nextJob.name, datum);
             });
           } else {
             log.execute({
