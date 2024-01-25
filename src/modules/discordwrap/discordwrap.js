@@ -10,8 +10,6 @@ const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
-var streamChannel = "1121273754857775114";
-var modPing = "";
 const defaultAvatarURL =
   "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png";
 
@@ -24,6 +22,9 @@ class Discordwrap extends EventEmitter {
   }
 
   async postItem(jobName, data) {
+    var streamChannel = "1121273754857775114";
+    var modPing = "";
+
     let logEmoji = "💬";
     switch (jobName) {
       case "getNewComments":
