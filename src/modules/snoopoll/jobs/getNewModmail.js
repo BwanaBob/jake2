@@ -1,6 +1,6 @@
 module.exports = {
   name: "getNewModmail",
-  frequency: 7000,
+  frequency: 65000,
   limit: 10,
   async getData(redditClient, afterDate) {
     try {

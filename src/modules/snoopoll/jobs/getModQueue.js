@@ -1,6 +1,6 @@
 module.exports = {
   name: "getModQueue",
-  frequency: 60000,
+  frequency: 20000,
   limit: 15,
   async getData(redditClient, afterDate) {
     try {

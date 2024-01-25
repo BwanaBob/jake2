@@ -20,7 +20,7 @@ class Snoopoll extends EventEmitter {
     this.frequency = options.snooPoll.frequency || 7000; // Default frequency is 7 seconds
     this.jobs = this.loadJobs(jobFolder);
     this.interval = null;
-    this.connectedAt = Date.now() / 1000; // - 10000;
+    this.connectedAt = Date.now() / 1000;
     this.processedIds = new Set();
   }
 
@@ -127,16 +127,19 @@ class Snoopoll extends EventEmitter {
         .getData(this.redditClient, this.connectedAt)
         .then((data) => {
           const newData = data.filter((item) => {
-            if (item.created_utc && this.connectedAt < item.created_utc) {
-              return true;
+            if (this.processedIds.has(item.id)) {
+              return false;
+            }
+            if (item.created_utc && this.connectedAt > item.created_utc) {
+              return false;
             }
             if (
               item.lastUupdated &&
-              this.connectedAt < new Date(item.lastUpdated).getTime() / 1000
+              this.connectedAt > new Date(item.lastUpdated).getTime() / 1000
             ) {
-              return true;
+              return false;
             }
-            return false;
+            return true;
           });
 
           if (newData.length > 0) {
@@ -146,12 +149,12 @@ class Snoopoll extends EventEmitter {
               this.emit("data", nextJob.name, datum);
             });
           } else {
-            log.execute({
-              emoji: "🚫",
-              module: nextJob.name,
-              feature: "Received",
-              message: "  0 records",
-            });
+            // log.execute({
+            //   emoji: "🚫",
+            //   module: nextJob.name,
+            //   feature: "Received",
+            //   message: "  0 records",
+            // });
           }
         })
         .catch((error) => {
