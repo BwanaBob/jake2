@@ -51,16 +51,24 @@ class Discordwrap extends EventEmitter {
     // console.log(data.constructor.name);
     switch (data.constructor.name) {
       case "ModmailConversation":
-        subreddit = data.owner.displayName;
+        // console.log(data);
 
+        subreddit = data.owner.displayName;
+        modPing =
+          options.subreddits[subreddit].modQueueNotifyRole ||
+          false;
+
+        let messageBody = "Unknown";
         const userMessages = data.messages.filter(
           (message) => !message.author.name.isMod
         );
 
         if (userMessages.length > 0) {
           authorUser = userMessages[0].author.name.name;
+          messageBody = userMessages[0].bodyMarkdown || "Unknown"
         } else {
           authorUser = data.messages[0].author.name.name;
+          messageBody = data.messages[0].bodyMarkdown || "Unknown"
         }
 
         log.execute({
@@ -71,6 +79,45 @@ class Discordwrap extends EventEmitter {
           userName: authorUser,
           message: `${data.constructor?.name} Id: ${data.id}`,
         });
+
+        var discordEmbed = new EmbedBuilder()
+          .setColor(options.modMailEmbedColor)
+          // .setURL(`https://www.reddit.com${data.permalink}`)
+          .setAuthor({
+            name: authorUser,
+            // url: `https://www.reddit.com${data.permalink}`,
+            iconURL: defaultAvatarURL,
+          })
+          .setDescription(
+            `${messageBody.slice(0, options.commentSize)}`
+          )
+          .setTitle("Mod Mail")
+          .setURL(
+            `https://mod.reddit.com/mail/all`
+          );
+
+        if (modPing) {
+          await discordClient.channels.cache
+            .get(streamChannel)
+            .send({ embeds: [discordEmbed], content: `<@&${modPing}>` })
+            .catch((err) => {
+              console.error(
+                `[ERROR] Sending message ${data.id} -`,
+                err.message
+              );
+            });
+        } else {
+          await discordClient.channels.cache
+            .get(streamChannel)
+            .send({ embeds: [discordEmbed] })
+            .catch((err) => {
+              console.error(
+                `[ERROR] Sending message ${data.id} -`,
+                err.message
+              );
+            });
+        }
+
         break;
       case "Comment":
         streamChannel =
@@ -110,7 +157,7 @@ class Discordwrap extends EventEmitter {
               .modQueueNotifyRole || false;
         }
 
-        if (jobName == "getSpam") {
+        if (jobName == "getSpam" || data.spam) {
           discordEmbed.setColor(options.spamCommentEmbedColor);
           discordEmbed.setTitle("Spam Comment");
           discordEmbed.setURL(
@@ -209,7 +256,7 @@ class Discordwrap extends EventEmitter {
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
         }
-        if (jobName == "getSpam") {
+        if (jobName == "getSpam" || data.spam) {
           discordEmbed.setColor(options.spamSubmissionEmbedColor);
           discordEmbed.setTitle("Spam Post");
           discordEmbed.setURL(
@@ -248,7 +295,7 @@ class Discordwrap extends EventEmitter {
           feature: "Received",
           guild: subreddit,
           userName: authorUser,
-          message: `${data.constructor?.name} Id: ${data.id}`,
+          message: `${data.constructor?.name} Id: ${data.id} Type: ${data.constructor.name}`,
         });
 
         break;
