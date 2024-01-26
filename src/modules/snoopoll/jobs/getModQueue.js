@@ -1,7 +1,7 @@
 module.exports = {
   name: "getModQueue",
   frequency: 20000,
-  limit: 15,
+  limit: 7,
   async getData(redditClient, afterDate) {
     try {
       const modQueueItems = await redditClient

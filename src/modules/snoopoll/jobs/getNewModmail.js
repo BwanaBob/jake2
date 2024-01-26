@@ -1,7 +1,7 @@
 module.exports = {
   name: "getNewModmail",
   frequency: 125000,
-  limit: 10,
+  limit: 3,
   async getData(redditClient, afterDate) {
     try {
       const conversations = await redditClient

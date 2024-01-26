@@ -1,7 +1,7 @@
 module.exports = {
   name: "getSpam",
   frequency: 31000,
-  limit: 10,
+  limit: 7,
   async getData(redditClient, afterDate) {
     try {
       const spams = await redditClient

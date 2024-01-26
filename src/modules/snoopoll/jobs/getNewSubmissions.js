@@ -1,7 +1,7 @@
 module.exports = {
   name: "getNewSubmissions",
   frequency: 30000,
-  limit: 10,
+  limit: 5,
   async getData(redditClient, afterDate) {
     try {
       const submissions = await redditClient
