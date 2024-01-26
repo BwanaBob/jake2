@@ -3,12 +3,12 @@
     "frequency": 6000
   },
   "commentEmbedColor": "#3498db",
-  "spamCommentEmbedColor": "#ff0000",
+  "spamCommentEmbedColor": "#e91e63",
   "submissionEmbedColor": "#2ecc71",
-  "spamSubmissionEmbedColor": "#ff0000",
+  "spamSubmissionEmbedColor": "#e91e63",
   "modQueueCommentEmbedColor": "#f1c40f",
-  "modQueuePostEmbedColor": "#e91e63",
-  "modMailEmbedColor": "#db3498",
+  "modQueuePostEmbedColor": "ff66aa",
+  "modMailEmbedColor": "#aa44cc",
   "subreddits": {
     "OnPatrolLive": {
         "channelId": "1121307801453596722",
