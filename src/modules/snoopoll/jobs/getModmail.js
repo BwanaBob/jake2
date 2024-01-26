@@ -5,8 +5,9 @@ module.exports = {
   async getData(redditClient, afterDate) {
     try {
       const messages = await redditClient
-        .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-        .getModmail({ limit: this.limit });
+      // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      .getSubreddit("OnPatrolLive")
+      .getModmail({ limit: this.limit });
       return messages;
     } catch (error) {
       console.error("Error in getModmail:", error);

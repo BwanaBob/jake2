@@ -5,7 +5,8 @@ module.exports = {
   async getData(redditClient, afterDate) {
     try {
       const submissions = await redditClient
-        .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      .getSubreddit("OnPatrolLive")
         .getNew({ limit: this.limit });
       return submissions;
     } catch (error) {

@@ -5,7 +5,8 @@ module.exports = {
   async getData(redditClient, afterDate) {
     try {
       const modQueueItems = await redditClient
-        .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      .getSubreddit("OnPatrolLive")
         .getModqueue({ limit: this.limit });
       return modQueueItems;
     } catch (error) {

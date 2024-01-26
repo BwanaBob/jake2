@@ -54,9 +54,7 @@ class Discordwrap extends EventEmitter {
         // console.log(data);
 
         subreddit = data.owner.displayName;
-        modPing =
-          options.subreddits[subreddit].modQueueNotifyRole ||
-          false;
+        modPing = options.subreddits[subreddit].modQueueNotifyRole || false;
 
         let messageBody = "Unknown";
         const userMessages = data.messages.filter(
@@ -65,10 +63,10 @@ class Discordwrap extends EventEmitter {
 
         if (userMessages.length > 0) {
           authorUser = userMessages[0].author.name.name;
-          messageBody = userMessages[0].bodyMarkdown || "Unknown"
+          messageBody = userMessages[0].bodyMarkdown || "Unknown";
         } else {
           authorUser = data.messages[0].author.name.name;
-          messageBody = data.messages[0].bodyMarkdown || "Unknown"
+          messageBody = data.messages[0].bodyMarkdown || "Unknown";
         }
 
         log.execute({
@@ -88,13 +86,9 @@ class Discordwrap extends EventEmitter {
             // url: `https://www.reddit.com${data.permalink}`,
             iconURL: defaultAvatarURL,
           })
-          .setDescription(
-            `${messageBody.slice(0, options.commentSize)}`
-          )
+          .setDescription(`${messageBody.slice(0, options.commentSize)}`)
           .setTitle("Mod Mail")
-          .setURL(
-            `https://mod.reddit.com/mail/all`
-          );
+          .setURL(`https://mod.reddit.com/mail/all`);
 
         if (modPing) {
           await discordClient.channels.cache
@@ -146,7 +140,10 @@ class Discordwrap extends EventEmitter {
           })
           .setDescription(`${data.body.slice(0, options.commentSize)}`);
 
-        if (jobName == "getModQueue") {
+        if (
+          jobName == "getModQueue" ||
+          (data.banned_at_utc != null && !data.spam)
+        ) {
           discordEmbed.setColor(options.modQueueCommentEmbedColor);
           discordEmbed.setTitle("Mod Queue Comment");
           discordEmbed.setURL(
@@ -157,12 +154,15 @@ class Discordwrap extends EventEmitter {
               .modQueueNotifyRole || false;
         }
 
-        if (jobName == "getSpam" || data.spam) {
+        if (jobName == "getSpam" || (data.banned_at_utc != null && data.spam)) {
           discordEmbed.setColor(options.spamCommentEmbedColor);
-          discordEmbed.setTitle("Spam Comment");
-          discordEmbed.setURL(
-            `https://www.reddit.com/r/OnPatrolLive/about/spam`
-          );
+          // discordEmbed.setTitle("Spam Comment");
+          // discordEmbed.setURL(
+          //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
+          // );
+        } else if (authorUser == "Imaginary_Shift_5456") {
+          console.log("Non-Spam Shadowed:");
+          console.log(data);
         }
 
         if (modPing) {

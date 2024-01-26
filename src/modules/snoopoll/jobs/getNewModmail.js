@@ -1,11 +1,12 @@
 module.exports = {
   name: "getNewModmail",
-  frequency: 65000,
+  frequency: 125000,
   limit: 10,
   async getData(redditClient, afterDate) {
     try {
       const conversations = await redditClient
-        .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      .getSubreddit("OnPatrolLive")
         .getNewModmailConversations({ limit: this.limit });
       return conversations;
     } catch (error) {

@@ -1,6 +1,6 @@
 {
   "name": "jake2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Rewrite of the Snoowrap bot Jake replacing the abandoned Snoostorm module.",
   "main": "index.js",
   "scripts": {

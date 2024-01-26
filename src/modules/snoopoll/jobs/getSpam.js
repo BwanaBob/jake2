@@ -5,7 +5,8 @@ module.exports = {
   async getData(redditClient, afterDate) {
     try {
       const spams = await redditClient
-        .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
+      .getSubreddit("OnPatrolLive")
         .getSpam({ limit: this.limit });
       return spams;
     } catch (error) {
