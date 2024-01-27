@@ -140,10 +140,7 @@ class Discordwrap extends EventEmitter {
           })
           .setDescription(`${data.body.slice(0, options.commentSize)}`);
 
-        if (
-          jobName == "getModQueue" ||
-          (data.banned_at_utc != null && !data.spam)
-        ) {
+        if (jobName == "getModQueue") {
           discordEmbed.setColor(options.modQueueCommentEmbedColor);
           discordEmbed.setTitle("Mod Queue Comment");
           discordEmbed.setURL(
@@ -154,7 +151,13 @@ class Discordwrap extends EventEmitter {
               .modQueueNotifyRole || false;
         }
 
-        if (jobName == "getSpam" || (data.banned_at_utc != null && data.spam)) {
+        if (
+          jobName == "getSpam" ||
+          data.spam ||
+          data.banned_at_utc != null ||
+          data.banned_by?.name == "AutoModerator" ||
+          data.author_flair_css_class == "shadow"
+        ) {
           discordEmbed.setColor(options.spamCommentEmbedColor);
           // discordEmbed.setTitle("Spam Comment");
           // discordEmbed.setURL(
@@ -256,7 +259,14 @@ class Discordwrap extends EventEmitter {
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
         }
-        if (jobName == "getSpam" || data.spam) {
+
+        if (
+          jobName == "getSpam" ||
+          data.spam ||
+          data.banned_at_utc != null ||
+          data.banned_by?.name == "AutoModerator" ||
+          data.author_flair_css_class == "shadow"
+        ) {
           discordEmbed.setColor(options.spamSubmissionEmbedColor);
           discordEmbed.setTitle("Spam Post");
           discordEmbed.setURL(
