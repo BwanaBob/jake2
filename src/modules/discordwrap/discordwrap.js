@@ -10,9 +10,6 @@ const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
-const defaultAvatarURL =
-  "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png";
-
 class Discordwrap extends EventEmitter {
   constructor() {
     super();
@@ -48,6 +45,9 @@ class Discordwrap extends EventEmitter {
 
     let authorUser = "Unknown";
     let subreddit = "Unknown";
+    let thisAvatarURL =
+      "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png";
+
     // console.log(data.constructor.name);
     switch (data.constructor.name) {
       case "ModmailConversation":
@@ -84,7 +84,7 @@ class Discordwrap extends EventEmitter {
           .setAuthor({
             name: authorUser,
             // url: `https://www.reddit.com${data.permalink}`,
-            iconURL: defaultAvatarURL,
+            iconURL: thisAvatarURL,
           })
           .setDescription(`${messageBody.slice(0, options.commentSize)}`)
           .setTitle("Mod Mail")
@@ -121,6 +121,13 @@ class Discordwrap extends EventEmitter {
           return;
         }
         authorUser = (await data.author?.name) || "Unknown";
+        if (data.author_flair_css_class == "shadow") {
+          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
+          authorUser += " [SB]";
+        }
+        if (data.author_flair_css_class == "watch") {
+          authorUser += " [WL]";
+        }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
         log.execute({
           emoji: logEmoji,
@@ -136,7 +143,7 @@ class Discordwrap extends EventEmitter {
           .setAuthor({
             name: authorUser,
             url: `https://www.reddit.com${data.permalink}`,
-            iconURL: defaultAvatarURL,
+            iconURL: thisAvatarURL,
           })
           .setDescription(`${data.body.slice(0, options.commentSize)}`);
 
@@ -193,6 +200,14 @@ class Discordwrap extends EventEmitter {
           return;
         }
         authorUser = (await data.author?.name) || "Unknown";
+        if (data.author_flair_css_class == "shadow") {
+          thisAvatarURL = 'https://i.imgur.com/6ipa7p2.png';
+          authorUser += " [SB]";
+        }
+        if (data.author_flair_css_class == "watch") {
+          thisAvatarURL = 'https://i.imgur.com/i8QOJLq.png'
+          authorUser += " [WL]";
+        }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
         log.execute({
           emoji: logEmoji,
@@ -206,9 +221,9 @@ class Discordwrap extends EventEmitter {
           .setColor(options.submissionEmbedColor)
           .setURL(`https://www.reddit.com${data.permalink}`)
           .setAuthor({
-            name: `${data.author.name}`,
+            name: `${authorUser}`,
             url: `https://www.reddit.com${data.permalink}`,
-            iconURL: defaultAvatarURL,
+            iconURL: thisAvatarURL,
           });
 
         var postMessage = `**${data.title.slice(0, 300)}**`;
