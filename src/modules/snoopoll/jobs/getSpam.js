@@ -10,7 +10,7 @@ module.exports = {
         .getSpam({ limit: this.limit });
       return spams;
     } catch (error) {
-      console.error("Error in getSpam:", error);
+      console.error("Error in getSpam:", error.message);
       return "Error occurred in getSpam";
     }
   },

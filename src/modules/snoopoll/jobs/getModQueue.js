@@ -10,7 +10,7 @@ module.exports = {
         .getModqueue({ limit: this.limit });
       return modQueueItems;
     } catch (error) {
-      console.error("Error in getNewModQueueItems:", error);
+      console.error("Error in getNewModQueueItems:", error.message);
       return "Error occurred in getNewModQueueItems";
     }
   },

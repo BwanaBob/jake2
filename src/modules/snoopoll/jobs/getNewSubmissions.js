@@ -10,7 +10,7 @@ module.exports = {
         .getNew({ limit: this.limit });
       return submissions;
     } catch (error) {
-      console.error("Error in getNewSubmissions:", error);
+      console.error("Error in getNewSubmissions:", error.message);
       return "Error occurred in getNewSubmissions";
     }
   },

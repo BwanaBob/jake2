@@ -10,7 +10,7 @@ module.exports = {
         .getNewComments({ limit: this.limit });
       return comments;
     } catch (error) {
-      console.error("Error in getNewComments:", error);
+      console.error("Error in getNewComments:", error.message);
       return "Error occurred in getNewComments";
     }
   },

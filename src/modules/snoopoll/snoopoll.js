@@ -158,7 +158,7 @@ class Snoopoll extends EventEmitter {
           }
         })
         .catch((error) => {
-          console.error(`Error in ${nextJob.name}:`, error);
+          console.error(`Error in ${nextJob.name}:`, error.message);
         });
     }
   }

@@ -10,7 +10,7 @@ module.exports = {
         .getNewModmailConversations({ limit: this.limit });
       return conversations;
     } catch (error) {
-      console.error("Error in getNewModmail:", error);
+      console.error("Error in getNewModmail:", error.message);
       return "Error occurred in getNewModmail";
     }
   },

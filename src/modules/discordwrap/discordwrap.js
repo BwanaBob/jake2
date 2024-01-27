@@ -163,9 +163,6 @@ class Discordwrap extends EventEmitter {
           // discordEmbed.setURL(
           //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
           // );
-        } else if (authorUser == "Imaginary_Shift_5456") {
-          console.log("Non-Spam Shadowed:");
-          console.log(data);
         }
 
         if (modPing) {
