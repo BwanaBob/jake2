@@ -1,6 +1,6 @@
 const EventEmitter = require("events");
 const log = require("../logger.js");
-// const fs = require("fs");
+const fs = require("fs");
 // const path = require("path");
 require("dotenv").config();
 const options = require("../../../options.json");
@@ -9,6 +9,24 @@ const { runInThisContext } = require("node:vm");
 const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
+
+function exportObjectToJson(object) {
+  if (!object || !object.id) {
+      console.error('Object or object id is missing.');
+      return;
+  }
+
+  const fileName = `object_${object.id}.json`;
+  const jsonContent = JSON.stringify(object, null, 2);
+
+  fs.writeFile(fileName, jsonContent, (err) => {
+      if (err) {
+          console.error(`Error exporting object to JSON file: ${err}`);
+      } else {
+          console.log(`Object exported to ${fileName}`);
+      }
+  });
+}
 
 class Discordwrap extends EventEmitter {
   constructor() {
@@ -169,6 +187,7 @@ class Discordwrap extends EventEmitter {
           // discordEmbed.setURL(
           //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
           // );
+          exportObjectToJson(data);
         }
 
         if (modPing) {
@@ -281,6 +300,7 @@ class Discordwrap extends EventEmitter {
           discordEmbed.setURL(
             `https://www.reddit.com/r/OnPatrolLive/about/spam`
           );
+          exportObjectToJson(data);
         }
 
         if (modPing) {

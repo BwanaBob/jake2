@@ -1,13 +1,13 @@
 {
   "snooPoll": {
-    "frequency": 21000
+    "frequency": 7000
   },
   "commentEmbedColor": "#3498db",
   "spamCommentEmbedColor": "#e91e63",
   "submissionEmbedColor": "#2ecc71",
   "spamSubmissionEmbedColor": "#e91e63",
   "modQueueCommentEmbedColor": "#f1c40f",
-  "modQueuePostEmbedColor": "ff66aa",
+  "modQueuePostEmbedColor": "f1c40f",
   "modMailEmbedColor": "#aa44cc",
   "subreddits": {
     "OnPatrolLive": {
