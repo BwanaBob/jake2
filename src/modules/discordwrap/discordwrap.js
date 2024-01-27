@@ -122,10 +122,11 @@ class Discordwrap extends EventEmitter {
         }
         authorUser = (await data.author?.name) || "Unknown";
         if (data.author_flair_css_class == "shadow") {
-          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
+          thisAvatarURL = 'https://i.imgur.com/6ipa7p2.png';
           authorUser += " [SB]";
         }
         if (data.author_flair_css_class == "watch") {
+          thisAvatarURL = 'https://i.imgur.com/i8QOJLq.png'
           authorUser += " [WL]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
