@@ -149,9 +149,7 @@ class Discordwrap extends EventEmitter {
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
-        }
-
-        if (
+        } else if (
           jobName == "getSpam" ||
           data.spam ||
           data.banned_at_utc != null ||
@@ -255,9 +253,7 @@ class Discordwrap extends EventEmitter {
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
-        }
-
-        if (
+        } else if (
           jobName == "getSpam" ||
           data.spam ||
           data.banned_at_utc != null ||
