@@ -10,14 +10,14 @@ const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
-function exportObjectToJson(object) {
-  if (!object || !object.id) {
+function exportObjectToJson(jobName, data) {
+  if (!data || !data.id) {
     console.error("Object or object id is missing.");
     return;
   }
 
-  const fileName = `object_${object.id}.json`;
-  const jsonContent = JSON.stringify(object, null, 2);
+  const fileName = `object_${data.id}_${data.constructor.name}_${jobName}.json`;
+  const jsonContent = JSON.stringify(data, null, 2);
 
   fs.writeFile(fileName, jsonContent, (err) => {
     if (err) {
@@ -37,6 +37,8 @@ class Discordwrap extends EventEmitter {
   }
 
   async postItem(jobName, data) {
+    exportObjectToJson(jobName, data);
+
     var streamChannel = "1121273754857775114";
     var modPing = "";
 
@@ -192,7 +194,7 @@ class Discordwrap extends EventEmitter {
           // discordEmbed.setURL(
           //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
           // );
-          exportObjectToJson(data);
+          // exportObjectToJson(data);
         }
 
         if (modPing) {
@@ -310,7 +312,7 @@ class Discordwrap extends EventEmitter {
           discordEmbed.setURL(
             `https://www.reddit.com/r/OnPatrolLive/about/spam`
           );
-          exportObjectToJson(data);
+          // exportObjectToJson(data);
         }
 
         if (modPing) {
