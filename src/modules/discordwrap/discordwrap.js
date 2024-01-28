@@ -142,11 +142,11 @@ class Discordwrap extends EventEmitter {
         }
         authorUser = (await data.author?.name) || "Unknown";
         if (data.author_flair_css_class == "shadow") {
-          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
+          thisAvatarURL = "https://i.imgur.com/6eRa9QF.png";
           authorUser += " [shadow]";
         }
         if (data.author_flair_css_class == "watch") {
-          thisAvatarURL = "https://i.imgur.com/i8QOJLq.png";
+          thisAvatarURL = "https://i.imgur.com/SQ8Yka8.png";
           authorUser += " [watch]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
@@ -228,11 +228,11 @@ class Discordwrap extends EventEmitter {
         }
         authorUser = (await data.author?.name) || "Unknown";
         if (data.author_flair_css_class == "shadow") {
-          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
+          thisAvatarURL = "https://i.imgur.com/6eRa9QF.png";
           authorUser += " [shadow]";
         }
         if (data.author_flair_css_class == "watch") {
-          thisAvatarURL = "https://i.imgur.com/i8QOJLq.png";
+          thisAvatarURL = "https://i.imgur.com/SQ8Yka8.png";
           authorUser += " [watch]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
