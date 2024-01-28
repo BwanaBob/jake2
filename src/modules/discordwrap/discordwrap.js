@@ -12,19 +12,19 @@ const discordClient = new Client({
 
 function exportObjectToJson(object) {
   if (!object || !object.id) {
-      console.error('Object or object id is missing.');
-      return;
+    console.error("Object or object id is missing.");
+    return;
   }
 
   const fileName = `object_${object.id}.json`;
   const jsonContent = JSON.stringify(object, null, 2);
 
   fs.writeFile(fileName, jsonContent, (err) => {
-      if (err) {
-          console.error(`Error exporting object to JSON file: ${err}`);
-      } else {
-          console.log(`Object exported to ${fileName}`);
-      }
+    if (err) {
+      console.error(`Error exporting object to JSON file: ${err}`);
+    } else {
+      console.log(`Object exported to ${fileName}`);
+    }
   });
 }
 
@@ -140,11 +140,11 @@ class Discordwrap extends EventEmitter {
         }
         authorUser = (await data.author?.name) || "Unknown";
         if (data.author_flair_css_class == "shadow") {
-          thisAvatarURL = 'https://i.imgur.com/6ipa7p2.png';
+          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
           authorUser += " [SB]";
         }
         if (data.author_flair_css_class == "watch") {
-          thisAvatarURL = 'https://i.imgur.com/i8QOJLq.png'
+          thisAvatarURL = "https://i.imgur.com/i8QOJLq.png";
           authorUser += " [WL]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
@@ -166,7 +166,12 @@ class Discordwrap extends EventEmitter {
           })
           .setDescription(`${data.body.slice(0, options.commentSize)}`);
 
-        if (jobName == "getModQueue") {
+        if (
+          jobName == "getModQueue" ||
+          (jobName == "getNewComments" &&
+            data.banned_at_utc != null &&
+            !data.spam)
+        ) {
           discordEmbed.setColor(options.modQueueCommentEmbedColor);
           discordEmbed.setTitle("Mod Queue Comment");
           discordEmbed.setURL(
@@ -221,11 +226,11 @@ class Discordwrap extends EventEmitter {
         }
         authorUser = (await data.author?.name) || "Unknown";
         if (data.author_flair_css_class == "shadow") {
-          thisAvatarURL = 'https://i.imgur.com/6ipa7p2.png';
+          thisAvatarURL = "https://i.imgur.com/6ipa7p2.png";
           authorUser += " [SB]";
         }
         if (data.author_flair_css_class == "watch") {
-          thisAvatarURL = 'https://i.imgur.com/i8QOJLq.png'
+          thisAvatarURL = "https://i.imgur.com/i8QOJLq.png";
           authorUser += " [WL]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
@@ -279,7 +284,12 @@ class Discordwrap extends EventEmitter {
 
         discordEmbed.setDescription(`${postEmoji}  ${postMessage}`);
 
-        if (jobName == "getModQueue") {
+        if (
+          jobName == "getModQueue" ||
+          (jobName == "getNewSubmissions" &&
+            data.banned_at_utc != null &&
+            !data.spam)
+        ) {
           discordEmbed.setColor(options.modQueuePostEmbedColor);
           discordEmbed.setTitle("Mod Queue Post");
           discordEmbed.setURL(
