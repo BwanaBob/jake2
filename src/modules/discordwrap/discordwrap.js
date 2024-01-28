@@ -23,7 +23,7 @@ function exportObjectToJson(jobName, data) {
     if (err) {
       console.error(`Error exporting object to JSON file: ${err}`);
     } else {
-      console.log(`Object exported to ${fileName}`);
+      // console.log(`Object exported to ${fileName}`);
     }
   });
 }
