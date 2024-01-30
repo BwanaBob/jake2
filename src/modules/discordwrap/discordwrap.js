@@ -169,9 +169,19 @@ class Discordwrap extends EventEmitter {
           .setDescription(`${data.body.slice(0, options.commentSize)}`);
 
         if (
+          data.banned_at_utc != null &&
+          (data.author_flair_css_class == "shadow" || data.spam)
+        ) {
+          discordEmbed.setColor(options.spamCommentEmbedColor);
+          // discordEmbed.setTitle("Spam Comment");
+          // discordEmbed.setURL(
+          //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
+          // );
+          // exportObjectToJson(data);
+        } else if (
           jobName == "getModQueue" ||
-          (jobName == "getNewComments" &&
-            data.banned_at_utc != null &&
+          (data.banned_at_utc != null &&
+            data.author_flair_css_class !== "shadow" &&
             !data.spam)
         ) {
           discordEmbed.setColor(options.modQueueCommentEmbedColor);
@@ -182,19 +192,6 @@ class Discordwrap extends EventEmitter {
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
-        } else if (
-          jobName == "getSpam" ||
-          data.spam ||
-          data.banned_at_utc != null ||
-          data.banned_by?.name == "AutoModerator" ||
-          data.author_flair_css_class == "shadow"
-        ) {
-          discordEmbed.setColor(options.spamCommentEmbedColor);
-          // discordEmbed.setTitle("Spam Comment");
-          // discordEmbed.setURL(
-          //   `https://www.reddit.com/r/OnPatrolLive/about/spam`
-          // );
-          // exportObjectToJson(data);
         }
 
         if (modPing) {
@@ -253,9 +250,9 @@ class Discordwrap extends EventEmitter {
             iconURL: thisAvatarURL,
           });
 
-        var postMessage = `**${data.title.slice(0, 300)}**`;
+        var postMessage = `**${data.title.slice(0, options.commentSize)}**`;
         if (data.selftext) {
-          postMessage += `\n${data.selftext.slice(0, 500)}`;
+          postMessage += `\n${data.selftext.slice(0, options.commentSize)}`;
         }
         var postEmoji = "📌";
         if (!data.is_self) {
@@ -287,9 +284,18 @@ class Discordwrap extends EventEmitter {
         discordEmbed.setDescription(`${postEmoji}  ${postMessage}`);
 
         if (
+          data.banned_at_utc != null &&
+          (data.author_flair_css_class == "shadow" || data.spam)
+        ) {
+          discordEmbed.setColor(options.spamSubmissionEmbedColor);
+          discordEmbed.setTitle("Spam Post");
+          discordEmbed.setURL(
+            `https://www.reddit.com/r/OnPatrolLive/about/spam`
+          );
+        } else if (
           jobName == "getModQueue" ||
-          (jobName == "getNewSubmissions" &&
-            data.banned_at_utc != null &&
+          (data.banned_at_utc != null &&
+            data.author_flair_css_class !== "shadow" &&
             !data.spam)
         ) {
           discordEmbed.setColor(options.modQueuePostEmbedColor);
@@ -300,19 +306,6 @@ class Discordwrap extends EventEmitter {
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
-        } else if (
-          jobName == "getSpam" ||
-          data.spam ||
-          data.banned_at_utc != null ||
-          data.banned_by?.name == "AutoModerator" ||
-          data.author_flair_css_class == "shadow"
-        ) {
-          discordEmbed.setColor(options.spamSubmissionEmbedColor);
-          discordEmbed.setTitle("Spam Post");
-          discordEmbed.setURL(
-            `https://www.reddit.com/r/OnPatrolLive/about/spam`
-          );
-          // exportObjectToJson(data);
         }
 
         if (modPing) {
