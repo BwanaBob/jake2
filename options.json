@@ -9,6 +9,7 @@
   "modQueueCommentEmbedColor": "#f1c40f",
   "modQueuePostEmbedColor": "f1c40f",
   "modMailEmbedColor": "#aa44cc",
+  "commentSize": 800,
   "subreddits": {
     "OnPatrolLive": {
         "channelId": "1121307801453596722",
