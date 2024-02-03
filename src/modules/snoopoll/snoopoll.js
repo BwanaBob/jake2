@@ -20,7 +20,7 @@ class Snoopoll extends EventEmitter {
     this.frequency = options.snooPoll.frequency || 7000; // Default frequency is 7 seconds
     this.jobs = this.loadJobs(jobFolder);
     this.interval = null;
-    this.connectedAt = Date.now() / 1000 - 20000; // get past 20 seconds
+    this.connectedAt = Date.now() / 1000 - 20; // get past 20 seconds
     this.processedIds = new Set();
   }
 

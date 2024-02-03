@@ -170,7 +170,7 @@ class Discordwrap extends EventEmitter {
 
         if (
           data.banned_at_utc != null &&
-          (data.author_flair_css_class == "shadow" || data.spam)
+          (data.author_flair_css_class == "shadow" || data.spam || data.body == '!tidy')
         ) {
           discordEmbed.setColor(options.spamCommentEmbedColor);
           // discordEmbed.setTitle("Spam Comment");
