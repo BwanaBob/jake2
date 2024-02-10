@@ -73,10 +73,12 @@ class Discordwrap extends EventEmitter {
       case "ModmailConversation":
         // console.log(data);
         subreddit = data.owner.displayName;
-        streamChannel =
-          options.subreddits[subreddit].channelId || false;
+        streamChannel = options.subreddits[subreddit].channelId || false;
         if (!streamChannel) {
-          return;
+          console.log("No stream channel found for modmail:");
+          console.log(data);
+          streamChannel = "1121273754857775114";
+          // return;
         }
         modPing = options.subreddits[subreddit].modQueueNotifyRole || false;
 
@@ -173,7 +175,9 @@ class Discordwrap extends EventEmitter {
 
         if (
           data.banned_at_utc != null &&
-          (data.author_flair_css_class == "shadow" || data.spam || data.body == '!tidy')
+          (data.author_flair_css_class == "shadow" ||
+            data.spam ||
+            data.body == "!tidy")
         ) {
           discordEmbed.setColor(options.spamCommentEmbedColor);
           // discordEmbed.setTitle("Spam Comment");
@@ -279,9 +283,15 @@ class Discordwrap extends EventEmitter {
           data.thumbnail &&
           data.thumbnail !== "default" &&
           data.thumbnail !== "self" &&
+          data.thumbnail !== "nsfw" &&
           data.post_hint !== "image"
         ) {
-          discordEmbed.setThumbnail(data.thumbnail);
+          discordEmbed.setThumbnail(data.thumbnail).catch((err) => {
+            console.error(
+              `[ERROR] Setting Thumbnail ${data.thumbnail} -`,
+              err.message
+            );
+          });
         }
 
         discordEmbed.setDescription(`${postEmoji}  ${postMessage}`);
