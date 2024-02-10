@@ -72,8 +72,12 @@ class Discordwrap extends EventEmitter {
     switch (data.constructor.name) {
       case "ModmailConversation":
         // console.log(data);
-
         subreddit = data.owner.displayName;
+        streamChannel =
+          options.subreddits[subreddit].channelId || false;
+        if (!streamChannel) {
+          return;
+        }
         modPing = options.subreddits[subreddit].modQueueNotifyRole || false;
 
         let messageBody = "Unknown";
@@ -136,7 +140,6 @@ class Discordwrap extends EventEmitter {
       case "Comment":
         streamChannel =
           options.subreddits[data.subreddit.display_name].channelId || false;
-        4;
         if (!streamChannel) {
           return;
         }
