@@ -286,12 +286,14 @@ class Discordwrap extends EventEmitter {
           data.thumbnail !== "nsfw" &&
           data.post_hint !== "image"
         ) {
-          discordEmbed.setThumbnail(data.thumbnail).catch((err) => {
+          try {
+            discordEmbed.setThumbnail(data.thumbnail);
+          } catch (err) {
             console.error(
               `[ERROR] Setting Thumbnail ${data.thumbnail} -`,
               err.message
             );
-          });
+          }
         }
 
         discordEmbed.setDescription(`${postEmoji}  ${postMessage}`);
