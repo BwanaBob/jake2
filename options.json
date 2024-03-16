@@ -9,6 +9,7 @@
   "modQueueCommentEmbedColor": "#f1c40f",
   "reportedCommentEmbedColor": "#c40ff1",
   "modQueuePostEmbedColor": "f1c40f",
+  "reportedPostEmbedColor":"#c40ff1",
   "modMailEmbedColor": "#aa44cc",
   "commentSize": 800,
   "subreddits": {
