@@ -7,6 +7,7 @@
   "submissionEmbedColor": "#2ecc71",
   "spamSubmissionEmbedColor": "#e91e63",
   "modQueueCommentEmbedColor": "#f1c40f",
+  "reportedCommentEmbedColor": "#c40ff1",
   "modQueuePostEmbedColor": "f1c40f",
   "modMailEmbedColor": "#aa44cc",
   "commentSize": 800,
