@@ -128,7 +128,9 @@ class Snoopoll extends EventEmitter {
         .then((data) => {
           const newData = data.filter((item) => {
             if (this.processedIds.has(item.id)) {
-              return false;
+              if (!item.num_reports || !item.num_reports == 0) {
+                return false;
+              }
             }
             if (item.created_utc && this.connectedAt > item.created_utc) {
               return false;
