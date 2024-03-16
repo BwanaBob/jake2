@@ -191,8 +191,13 @@ class Discordwrap extends EventEmitter {
             data.author_flair_css_class !== "shadow" &&
             !data.spam)
         ) {
-          discordEmbed.setColor(options.modQueueCommentEmbedColor);
-          discordEmbed.setTitle("Mod Queue Comment");
+          if (data.num_reports && data.num_reports > 0) {
+            discordEmbed.setColor(options.reportedCommentEmbedColor);
+            discordEmbed.setTitle("Reported Comment");
+          } else {
+            discordEmbed.setColor(options.modQueueCommentEmbedColor);
+            discordEmbed.setTitle("Mod Queue Comment");
+          }
           discordEmbed.setURL(
             `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
           );
