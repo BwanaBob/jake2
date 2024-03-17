@@ -136,7 +136,7 @@ class Snoopoll extends EventEmitter {
               return false;
             }
             if (
-              item.lastUupdated &&
+              item.lastUpdated &&
               this.connectedAt > new Date(item.lastUpdated).getTime() / 1000
             ) {
               return false;
