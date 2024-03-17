@@ -6,7 +6,7 @@ module.exports = {
     try {
       const comments = await redditClient
       // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-      .getSubreddit("OnPatrolLive")
+      .getSubreddit("OnPatrolLive+OPLTesting")
         .getNewComments({ limit: this.limit });
       return comments;
     } catch (error) {

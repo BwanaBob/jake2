@@ -6,7 +6,7 @@ module.exports = {
     try {
       const spams = await redditClient
       // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-      .getSubreddit("OnPatrolLive")
+      .getSubreddit("OnPatrolLive+OPLTesting")
         .getSpam({ limit: this.limit });
       return spams;
     } catch (error) {
