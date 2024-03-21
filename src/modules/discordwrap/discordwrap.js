@@ -37,7 +37,7 @@ class Discordwrap extends EventEmitter {
   }
 
   async postItem(jobName, data) {
-    // exportObjectToJson(jobName, data);
+    exportObjectToJson(jobName, data);
 
     var streamChannel = "1121273754857775114";
     var modPing = "";
