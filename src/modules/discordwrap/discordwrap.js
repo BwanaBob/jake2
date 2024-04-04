@@ -199,8 +199,11 @@ class Discordwrap extends EventEmitter {
             discordEmbed.setTitle("Mod Queue Comment");
           }
           discordEmbed.setURL(
-            `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
+            'https://www.reddit.com/mod/OnPatrolLive/queue'
           );
+          // discordEmbed.setURL(
+          //   `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
+          // );
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
@@ -326,8 +329,11 @@ class Discordwrap extends EventEmitter {
             discordEmbed.setTitle("Mod Queue Post");
           }
           discordEmbed.setURL(
-            `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
+            'https://www.reddit.com/mod/OnPatrolLive/queue'
           );
+          // discordEmbed.setURL(
+          //   `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
+          // );
           modPing =
             options.subreddits[data.subreddit.display_name]
               .modQueueNotifyRole || false;
