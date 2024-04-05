@@ -1,6 +1,6 @@
 {
   "snooPoll": {
-    "frequency": 27000
+    "frequency": 7000
   },
   "commentEmbedColor": "#3498db",
   "spamCommentEmbedColor": "#e91e63",
