@@ -93,7 +93,7 @@ class Snoopoll extends EventEmitter {
     // const newJobFreqs = jobFreqs.filter((freq) => freq > 0);
     // console.log(newJobFreqs);
     log.execute({
-      emoji: "🚥",
+      emoji: "🔁",
       module: "SnooPoll",
       feature: "ReportFreq",
       message: `Current: ${this.frequency} | Ideal: ${minFrequency.minFrequency(
