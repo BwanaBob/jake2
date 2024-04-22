@@ -6,7 +6,7 @@ module.exports = {
     try {
       const submissions = await redditClient
       // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-      .getSubreddit("OnPatrolLive+OPLTesting")
+      .getSubreddit("OnPatrolLive")
         .getNew({ limit: this.limit });
       return submissions;
     } catch (error) {
