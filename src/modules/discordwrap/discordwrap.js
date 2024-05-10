@@ -65,14 +65,21 @@ class Discordwrap extends EventEmitter {
 
     let authorUser = "Unknown";
     let subreddit = "Unknown";
-    let thisAvatarURL =
-      "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png";
+    let thisAvatarURL = "https://www.redditstatic.com/avatars/defaults/v2/avatar_default_7.png";
+    let p24AvatarURL = "https://i.imgur.com/TjABABi.png";
+    let oplAvatarURL = "https://i.imgur.com/MbDgRbw.png";
+    // let thisAvatar = new AttachmentBuilder('../resources/avatar_default_7.png');
 
     // console.log(data.constructor.name);
     switch (data.constructor.name) {
       case "ModmailConversation":
         // console.log(data);
         subreddit = data.owner.displayName;
+        if (subreddit == "OnPatrolLive") {
+          thisAvatarURL = oplAvatarURL;
+        } else if (subreddit == "Police247") {
+          thisAvatarURL = p24AvatarURL;
+        }
         streamChannel = options.subreddits[subreddit].channelId || false;
         if (!streamChannel) {
           console.log("No stream channel found for modmail:");
@@ -155,6 +162,11 @@ class Discordwrap extends EventEmitter {
           authorUser += " [watch]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
+        if (subreddit == "OnPatrolLive") {
+          thisAvatarURL = oplAvatarURL;
+        } else if (subreddit == "Police247") {
+          thisAvatarURL = p24AvatarURL;
+        }
         log.execute({
           emoji: logEmoji,
           module: jobName,
@@ -198,9 +210,7 @@ class Discordwrap extends EventEmitter {
             discordEmbed.setColor(options.modQueueCommentEmbedColor);
             discordEmbed.setTitle("Mod Queue Comment");
           }
-          discordEmbed.setURL(
-            'https://www.reddit.com/mod/OnPatrolLive/queue'
-          );
+          discordEmbed.setURL("https://www.reddit.com/mod/OnPatrolLive/queue");
           // discordEmbed.setURL(
           //   `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
           // );
@@ -248,6 +258,11 @@ class Discordwrap extends EventEmitter {
           authorUser += " [watch]";
         }
         subreddit = (await data.subreddit?.display_name) || "Unknown";
+        if (subreddit == "OnPatrolLive") {
+          thisAvatarURL = oplAvatarURL;
+        } else if (subreddit == "Police247") {
+          thisAvatarURL = p24AvatarURL;
+        }
         log.execute({
           emoji: logEmoji,
           module: jobName,
@@ -328,9 +343,7 @@ class Discordwrap extends EventEmitter {
             discordEmbed.setColor(options.modQueuePostEmbedColor);
             discordEmbed.setTitle("Mod Queue Post");
           }
-          discordEmbed.setURL(
-            'https://www.reddit.com/mod/OnPatrolLive/queue'
-          );
+          discordEmbed.setURL("https://www.reddit.com/mod/OnPatrolLive/queue");
           // discordEmbed.setURL(
           //   `https://www.reddit.com/r/OnPatrolLive/about/modqueue`
           // );
@@ -364,6 +377,11 @@ class Discordwrap extends EventEmitter {
       default:
         authorUser = (await data.author?.name) || "Unknown";
         subreddit = (await data.subreddit?.display_name) || "Unknown";
+        if (subreddit == "OnPatrolLive") {
+          thisAvatarURL = oplAvatarURL;
+        } else if (subreddit == "Police247") {
+          thisAvatarURL = p24AvatarURL;
+        }
         log.execute({
           emoji: logEmoji,
           module: jobName,

@@ -30,6 +30,12 @@
         "modQueueNotifyRole": "391837678967980035",
         "streamComments": true,
         "streamSubmissions": true
+    },
+    "Police247": {
+      "channelId": "1121307801453596722",
+      "modQueueNotifyRole": "1171955876609937564",
+      "streamComments": true,
+      "streamSubmissions": true
     }
 },
   "logger": {

@@ -6,7 +6,7 @@ module.exports = {
     try {
       const messages = await redditClient
       // .getSubreddit("OnPatrolLive+LAFireandRescue+OPLTesting")
-      .getSubreddit("OnPatrolLive")
+      .getSubreddit("OnPatrolLive+Police247")
       .getModmail({ limit: this.limit });
       return messages;
     } catch (error) {
